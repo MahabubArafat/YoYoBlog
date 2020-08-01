@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ title }} - MicroBlog</title>
-  </head>
-  <body>
-    <h1>Hi {{ user.username }}</h1>
-  </body>
-</html>
+{% extends "base.html" %} {% block content %}
+<h1>Hi {{ user.username }}</h1>
+{% for post in posts %}
+<div>
+  <p>
+    <b>{{post.author.username}} says:</b><br />
+    {{post.body}}
+  </p>
+</div>
+{% endfor %} {% endblock %}

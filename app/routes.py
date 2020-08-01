@@ -7,7 +7,11 @@ from app import app
 # this is how we can add multiple routes or links or paths for an function or page
 def index():
     user = {"username": "jack"}
-    return render_template("index.html", title="First", user=user)
+    posts = [
+        {"author": {"username": "John"}, "body": "Good Morning"},
+        {"author": {"username": "Wick"}, "body": "I gonna kill you"},
+    ]
+    return render_template("index.html", title="Home", user=user, posts=posts)
 
 
 # adding onek boro string in return

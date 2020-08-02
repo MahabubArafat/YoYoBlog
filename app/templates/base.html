@@ -8,6 +8,14 @@
     <title>Welcome To YoYoBlog</title>
     {% endif %}
     <link rel="stylesheet" href="./static/css/bootstrap.css" />
+    <style>
+      .login_content{
+        text-align: center;
+        margin: 10% 20%;
+        background-color: rgb(127, 255, 212);
+      }
+
+    </style>
   </head>
 
   <body>
@@ -25,15 +33,15 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand" href="#">Hidden brand</a>
+        <a class="navbar-brand" href="#">YoYoBlog</a>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item active">
-            <a class="nav-link" href="#"
+            <a class="nav-link" href="{{ url_for('index') }}"
               >Home <span class="sr-only">(current)</span></a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="{{ url_for('login') }}">Log In</a>
           </li>
           <li class="nav-item">
             <a
@@ -58,6 +66,13 @@
         </form>
       </div>
     </nav>
+    {% with messages=get_flashed_messages() %} 
+    {% if messages %}
+    {% for message in messages %}
+    {{message}}
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
     <div class="container-fluid">
       {% block content %} {% endblock %}
     </div>

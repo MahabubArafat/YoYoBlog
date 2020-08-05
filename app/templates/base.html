@@ -8,7 +8,18 @@
     <title>Welcome To YoYoBlog</title>
     {% endif %}
     <link rel="stylesheet" href="./static/css/bootstrap.css" />
+
     <style>
+    {% if body %}
+    body{
+      background-color:{{body}};
+    }
+    {% else %}
+    body{
+      background-color: azure;
+    }
+    {% endif %}
+    /* it may seem wrong in here,also red marks but jinja can still interprete it,it works */
       .login_content{
         text-align: center;
         margin: 10% 20%;

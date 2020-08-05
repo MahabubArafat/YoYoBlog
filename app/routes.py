@@ -41,5 +41,7 @@ def login():
             f" Log in Complete {form.username.data} and remeber you={form.remember_me.data}"
         )  # that .data is important cause without oita form theke ja pabe pura ta dekhabe, just username ta grab korbe na
         return redirect(url_for("index"))
-    return render_template("login.html", title="Sign In", form=form)
+    return render_template(
+        "login.html", title="Sign In", form=form, body="rgb(127, 255, 212)"
+    )
 

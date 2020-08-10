@@ -2,6 +2,7 @@
 <html lang="en">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./static/favicon.ico" rel="icon" />
     {% if title %}
     <title>{{title}}-YoYoBlog</title>
     {% else %}
@@ -52,16 +53,20 @@
             >
           </li>
           <li class="nav-item">
+            {% if current_user.is_anonymous %}
             <a class="nav-link" href="{{ url_for('login') }}">Log In</a>
+            {% else %}
+            <a class="nav-link" href={{ url_for('logout')}}>Log out</a>
+            {% endif %}
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('login') }}">Log In</a>
+            <a class="nav-link" href="{{ url_for('login') }}">Kisui na</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('login') }}">Log In</a>
+            <a class="nav-link" href="{{ url_for('login') }}">Click korish na</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('login') }}">Log In</a>
+            <a class="nav-link" href="{{ url_for('login') }}">Duru bal</a>
           </li>
 
         </ul>
@@ -77,7 +82,13 @@
     {% with messages=get_flashed_messages() %} 
     {% if messages %}
     {% for message in messages %}
-    {{message}}
+    {% if message=="Invalid Username or Password" %}
+    <div class="alert alert-danger">{{message}}</div>
+    {% elif message=="Please log in to access this page." %}
+    <div class="alert alert-primary">{{ message }}</div>
+    {% else %}
+    <div class="alert alert-success">{{message}}</div>
+    {% endif %}
     {% endfor %}
     {% endif %}
     {% endwith %}

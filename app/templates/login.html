@@ -5,16 +5,18 @@
     <!-- ei je novalidate disi, eitar fole frontend e form validate hobe na, backend er code form validate korto, subida hoilo onek logic add kora jabe, ar osubida hoilo backend e load beshi je kaj ta amr browser e korte pare -->
     {{ form.hidden_tag() }}
     <p>
-      {{ form.username.label }} <br />{{ form.username(size=32) }}
+      {{ form.username.label }} <br />{{ form.username(class="form-control-sm",
+      placeholder="username") }}
       <br />
       {% for error in form.username.errors %}
-      <span style="color: red;">{{ error }}</span>
+      <span class="alert alert-danger p-0">{{ error }}</span>
       {% endfor %}
     </p>
     <p>
-      {{ form.password.label }} <br />{{ form.password(size=32) }} <br />
+      {{ form.password.label }} <br />{{ form.password(class="form-control-sm",
+      placeholder="password") }} <br />
       {% for error in form.password.errors %}
-      <span style="color: red;">{{ error }}</span>
+      <span class="alert alert-danger p-0">{{ error }}</span>
       {% endfor %}
     </p>
     <p>
@@ -24,5 +26,8 @@
       {{ form.submit(class="btn btn-success btn-sm") }}
     </p>
   </form>
+  <p>
+    New User? <a href="{{ url_for('register') }}">Click here to Register !</a>
+  </p>
 </div>
 {% endblock %}

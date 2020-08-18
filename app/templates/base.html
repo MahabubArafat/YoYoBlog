@@ -83,11 +83,11 @@
     {% if messages %}
     {% for message in messages %}
     {% if message=="Invalid Username or Password" %}
-    <div class="alert alert-danger">{{message}}</div>
+    <div class="alert alert-danger p-0">{{message}}</div>
     {% elif message=="Please log in to access this page." %}
-    <div class="alert alert-primary">{{ message }}</div>
+    <div class="alert alert-primary p-0">{{ message }}</div>
     {% else %}
-    <div class="alert alert-success">{{message}}</div>
+    <div class="alert alert-success p-0">{{message}}</div>
     {% endif %}
     {% endfor %}
     {% endif %}

@@ -3,7 +3,7 @@ from werkzeug.urls import url_parse
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
 from app.forms import LoginForm, RegistrationForm
-from app.models import User
+from app.models import User, Post
 
 
 @app.route("/")
@@ -55,7 +55,10 @@ def login():
         # this is for dhoro ekta page e jete dhorlam, login kora dorkar tar jonno, so login korle direct jeno je page e jaite chaisilam oi page e direct kore eita sei kaj kortese
         if not next_page or not next_page.startswith("/"):
             # oi eki kahini,eita better tobe
-            # url_parse(next_page).netloc check kortese je , je url ta pass kora hoise oitar domain name empty kina, empty na hoile nicher ta set kore dicche, ar empty hoile ja ache tai, eita kortese karon kono attacker url er query string e ?er por or website er domain name add kore okhane redirect krte pare, ei dhoroner attack deflect korar jonno eita kora,mane domain empty paile toh amar site e, karon ami ei folder er relatively url pass kori, ar domain paile amar site na, remote site, so tokhon next_page eer value niche  set kore dicchi 'index' jeno amar site theke redirect kore or site e nite na pare
+            # url_parse(next_page).netloc check kortese je , je url ta pass kora hoise oitar domain name empty kina, empty na hoile nicher ta set kore dicche, \
+            # ar empty hoile ja ache tai, eita kortese karon kono attacker url er query string e ?er por or website er domain name add kore okhane redirect krte pare, \
+            # ei dhoroner attack deflect korar jonno eita kora,mane domain empty paile toh amar site e, karon ami ei folder er relatively url pass kori, \
+            # ar domain paile amar site na, remote site, so tokhon next_page eer value niche  set kore dicchi 'index' jeno amar site theke redirect kore or site e nite na pare
             next_page = url_for("index")
             # jodi kono query string na thake tobe index default kore dilam
         return redirect(next_page)

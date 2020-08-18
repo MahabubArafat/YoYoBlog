@@ -19,6 +19,9 @@ lib
 lib64
 __pycache__
 
+#for my testing these python codes that i get introduced in the lectures
+for_me_python_codes
+
 # Installer logs
 pip-log.txt
 

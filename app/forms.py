@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from wtforms import StringField, TextAreaField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from app.models import User
 
 
@@ -33,4 +33,12 @@ class RegistrationForm(FlaskForm):
             raise ValidationError(
                 "Email is used by another user, Please use a different email"
             )
+
+
+class EditProfileForm(FlaskForm):
+    username = StringField("Username :", validators=[DataRequired()])
+    about_me = TextAreaField(
+        "About Me :", validators=[DataRequired(), Length(min=0, max=140)]
+    )
+    submit = SubmitField("Update")
 

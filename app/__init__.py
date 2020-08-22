@@ -10,5 +10,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = "login"  # url_for nijei lagay ney ei function
+# ar login bolte login function ta re bujaise jeita routes e dewa
 
 from app import routes, models

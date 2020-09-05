@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="alert alert-danger" style="text-align: center">
+  <h1>An Unexpected Error Has Been Occurred</h1>
+</div>
+<div class="alert alert-success">
+  <p>Admin Panel have been notified</p>
+  <small class="text-muted" style="color: rgb(202, 174, 139)"
+    >~we are sorry for the inconvenience <br />
+    Admin</small
+  >
+</div>
+<div class="btn btn-outline-success btn-lg">
+  <a href="{{ url_for('index') }}">Back</a>
+</div>
+{% endblock %}

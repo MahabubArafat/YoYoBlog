@@ -123,3 +123,34 @@ def edit_profile():
 
     return render_template("edit_profile.html", form=form, title="edit profile")
 
+
+@app.route("/follow/<username>")
+@login_required
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash(f"User : {username} not found")
+        return redirect(url_for("index"))
+    if user == current_user:
+        flash("You Can't Follow Yourself ")
+        return redirect(url_for("user", username=username))
+    current_user.follow(user)
+    db.session.commit()
+    flash(f"You are Folllowing {username}")
+    return redirect(url_for("user", username=username))
+
+
+@app.route("/unfollow/<username>")
+@login_required
+def unfollow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash(f"User :{username} not found")
+        return redirect(url_for("index"))
+    if user == current_user:
+        flash("You Can't Unfollow Yourself ")
+        return redirect(url_for("user", username=username))
+    current_user.unfollow(user)
+    db.session.commit()
+    flash(f"You unfollowed  {username}")
+    return redirect(url_for("user", username=username))

@@ -12,8 +12,33 @@
     <p>
       <small class="text-muted"> Last Seen On : {{ user.last_seen }} </small>
     </p>
-    {% endif %} {% if user==current_user %}
-    <a href="{{ url_for('edit_profile') }}">Edit Your Profile</a>
+    {% endif %}
+    <p class="text-muted">
+      <b> {{ user.followers.count() }} </b> Followers,
+      <b> {{ user.followed.count() }} </b> Following
+    </p>
+
+    {% if user==current_user %}
+    <a class="btn btn-primary" href="{{ url_for('edit_profile') }}"
+      >Edit Your Profile</a
+    >
+    {% elif not current_user.is_following(user) %}
+    <p>
+      <a
+        class="btn btn-success"
+        href="{{ url_for('follow',username=user.username) }}"
+      >
+        Follow</a
+      >
+    </p>
+    {% else %}
+    <p>
+      <a
+        class="btn btn-outline-danger"
+        href="{{ url_for('unfollow',username=user.username) }}"
+        >Unfollow</a
+      >
+    </p>
     {% endif %}
   </div>
 </div>

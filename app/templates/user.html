@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block content %}
 <div class="row">
   <div class="col-3 p-3">
-    <img src="{{ user.avatar(256) }}" alt="" />
+    <img src="{{ user.avatar(256) }}" alt="{{ user.username }}" />
   </div>
   <div class="col-9">
     <h1>User: {{user.username}}</h1>

@@ -1,16 +1,47 @@
-{% extends "base.html" %} 
-{% block content %}
-<h1>Hi {{ current_user.username }}, What's on your mind today?</h1>
-<hr>
-{% for post in posts %}
-<div>
+{% extends "base.html" %} {% block content %}
+<h1>Hi {{ current_user.username }} ,</h1>
+{% if form %} 
+<!-- explore option e jeno ei form render na hoy ejonno e check, form argument pass na korle form render hobe na -->
+<form action="" method="post">
+  {{ form.hidden_tag() }}
   <p>
-    <b>{{post.author.username}} says:</b><br />
-    {{post.body}}
-    <hr>
-
+    <h1>{{ form.post.label}}</h1> <br>
+    {{ form.post(class="form-text",placeholder="Shout Something",rows=6,cols=60)}}
+    {% for error in form.post.errors %}
+    <span class="alert alert-danger">
+      {{ error }}
+    </span>
+    {% endfor %}
   </p>
-</div>
+  <p>
+    {{ form.submit(class="btn btn-success btn-lg")}}
+  </p>
+</form>
+{% endif %}
+<hr />
+{% for post in posts %}
+<div>{% include "_post.html" %}</div>
 
 {% endfor %} 
+<br>
+<br>
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    {% if prev_url %}
+    <li class="page-item">
+      <a class="page-link" href="{{ prev_url }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span> Newer
+      </a>
+    </li>
+    {% endif %}
+    {% if next_url %}
+    <li class="page-item">
+      <a class="page-link" href="{{ next_url }}" aria-label="Next">
+        Older <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+
 {% endblock %}

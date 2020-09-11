@@ -3,7 +3,7 @@ from flask import render_template, flash, redirect, url_for, request
 from werkzeug.urls import url_parse
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm
 from app.models import User, Post
 
 
@@ -14,17 +14,38 @@ def before_request():
         db.session.commit()
 
 
-@app.route("/")
-@app.route("/index")
+@app.route("/", methods=["GET", "POST"])
+@app.route("/index", methods=["GET", "POST"])
 @login_required
 # this is how we can add multiple routes or links or paths for an function or page
 # and serial of decoratores in flask specially app.routes are very important to be in first in order
 def index():
-    posts = [
-        {"author": {"username": "John"}, "body": "Good Morning"},
-        {"author": {"username": "Wick"}, "body": "I am gonna kill you"},
-    ]
-    return render_template("index.html", title="Home", posts=posts)
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash("You Just Shouted in YoYoBlog")
+        return redirect(url_for("index"))
+
+    page = request.args.get("page", 1, type=int)
+    posts = current_user.followed_posts().paginate(
+        page, app.config["POSTS_PER_PAGE"], False
+    )
+    # for pagination of blog posts, tail .all() na die eivabe dite hoise
+    # paginate sequence (page number, num of items perpage,will it show an error when page not found?->False disi mane error dibe na,empty page dibe)
+    next_url = url_for("index", page=posts.next_num) if posts.has_next else None
+    prev_url = url_for("index", page=posts.prev_num) if posts.has_prev else None
+    # mane next and previous page number uprer oi posts ja paisi paginate query theke nibe, ar jodi paginate empty list return kore then amra next page value None dilam, jeno jeita nai oita show na kore.
+    return render_template(
+        "index.html",
+        title="Home",
+        posts=posts.items,
+        form=form,
+        next_url=next_url,
+        prev_url=prev_url,
+    )
+    # posts er pore .items lagate hoise karon paginate query items akare dey result, list akare dey na ager moto
 
 
 # adding onek boro string in return
@@ -43,6 +64,29 @@ def index():
 # """
 
 # mane ''' ei 3ta die onek boro string o return kora jay''' jantam e na bal
+
+
+@app.route("/explore")
+@login_required
+def explore():
+    page = request.args.get("page", 1, type=int)
+    # request.args.get(what is term looking for,default,type of the argument)
+    posts = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page, app.config["POSTS_PER_PAGE"], False
+    )
+    # eivabe query korar reason upore
+    next_url = url_for("explore", page=posts.next_num) if posts.has_next else None
+    prev_url = url_for("explore", page=posts.prev_num) if posts.has_prev else None
+    # print(type(posts.items))--> becomes list
+    # print(len(posts.items)) per page item je koyta oitay dey
+    # print(posts.next_num, posts.prev_num)
+    return render_template(
+        "index.html",
+        title="Explore",
+        posts=posts.items,
+        next_url=next_url,
+        prev_url=prev_url,
+    )
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -102,7 +146,7 @@ def register():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    posts = [{"author": user, "body": "test 1"}, {"author": user, "body": "test 2"}]
+    posts = user.posts.order_by(Post.timestamp.desc()).all()
     return render_template("user.html", user=user, posts=posts, title=username)
 
 

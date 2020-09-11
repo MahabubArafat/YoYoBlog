@@ -16,6 +16,7 @@ class Config(object):
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
     ADMINS = ["joshephmalorie@gmail.com"]
+    POSTS_PER_PAGE = 20
 
 
 # ei je prottekta os.environ.get era flask er je terminale session thake seikhane je variable gula set kori, seikhan theke variable gula ney

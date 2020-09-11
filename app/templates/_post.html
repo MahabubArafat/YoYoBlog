@@ -1,0 +1,25 @@
+<div class="card mt-3" style="width: 1fr">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-1">
+        <img
+          src="{{ post.author.avatar(36) }}"
+          alt="{{ post.author.username }}"
+        />
+      </div>
+      <div class="col-11">
+        <b>
+          <a
+            href="{{ url_for('user',username=post.author.username) }}"
+            style="text-decoration: none"
+            >{{ post.author.username }}
+          </a>
+          Shouted:</b
+        >
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="card-text">{{ post.body }}</div>
+  </div>
+</div>

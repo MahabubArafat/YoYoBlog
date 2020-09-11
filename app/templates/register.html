@@ -1,0 +1,36 @@
+{% extends "base.html" %} {% block content %}
+<u><h1>Register For YoYoBlog</h1></u>
+<form action="" method="post" novalidate>
+  {{ form.hidden_tag() }}
+  <p>
+    {{ form.username.label}} <br />
+    {{ form.username(class="form-control-sm", placeholder="username") }} <br />
+    {% for error in form.username.errors %}
+    <span class="alert alert-danger p-0">{{ error }}</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.email.label}} <br />
+    {{ form.email(class="form-control-sm",placeholder="email@example.com") }}
+    <br />
+    {% for error in form.email.errors %}
+    <span class="alert alert-danger p-0">{{ error }}</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.password.label}} <br />
+    {{ form.password(class="form-control-sm") }} <br />
+    {% for error in form.password.errors %}
+    <span class="alert alert-danger p-0">{{ error }}</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.password2.label}} <br />
+    {{ form.password2(class="form-control-sm") }} <br />
+    {% for error in form.password2.errors %}
+    <span class="alert alert-danger p-0">{{ error }}</span>
+    {% endfor %}
+  </p>
+  <p>{{ form.submit(class="btn btn-outline-primary btn-lg") }}</p>
+</form>
+{% endblock %}

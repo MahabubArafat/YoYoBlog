@@ -6,7 +6,7 @@
   {{ form.hidden_tag() }}
   <p>
     <h1>{{ form.post.label}}</h1> <br>
-    {{ form.post(class="form-text",placeholder="Shout Something",rows=6,cols=60)}}
+    {{ form.post(class="form-control",placeholder="Shout Something",rows=6,cols=60)}}
     {% for error in form.post.errors %}
     <span class="alert alert-danger">
       {{ error }}
@@ -14,7 +14,7 @@
     {% endfor %}
   </p>
   <p>
-    {{ form.submit(class="btn btn-success btn-lg")}}
+    {{ form.submit(class="btn btn-primary btn-lg")}}
   </p>
 </form>
 {% endif %}

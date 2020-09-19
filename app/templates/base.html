@@ -26,44 +26,52 @@
 </head>
 
 <body>
-  <!-- <nav class="navbar navbar-dark bg-dark"> -->
-  <nav class="navbar sticky-top navbar-expand navbar-dark bg-dark">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
-      aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('index') }}">YoYoBlog</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-      <a class="navbar-brand" href="#">YoYoBlog</a>
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item active">
-          <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ url_for('index') }} ">Home</a>
         </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="{{ url_for('explore') }}">Explore<span class="sr-only">(current)</span></a>
+        <li class="nav-item">
+          <a class="nav-link active" href="{{ url_for('explore') }}">Explore</a>
         </li>
-
+        <!-- <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li> -->
         {% if current_user.is_anonymous %}
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('login') }}">Log In</a>
+          <a class="nav-link active" href="{{ url_for('login') }}">Login</a>
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+          <a class="nav-link active" href="{{ url_for('user', username=current_user.username) }}">Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href={{ url_for('logout')}}>Log out</a>
+          <a class="nav-link active" href="{{ url_for('logout') }}">Log out</a>
         </li>
         {% endif %}
+
       </ul>
-      <form class="form-inline">
-        <input class="form-control-sm" type="search" placeholder="Search" aria-label="Search">
-
-        <input class="btn btn-outline-success btn-sm" type="submit" value="Search" style="border-radius: 0;">
-
-
+      <form class="d-flex">
+        <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
     </div>
-  </nav>
+  </div>
+</nav>
   {% with messages=get_flashed_messages() %}
   {% if messages %}
   {% for message in messages %}

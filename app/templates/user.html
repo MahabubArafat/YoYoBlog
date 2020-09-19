@@ -14,8 +14,8 @@
     </p>
     {% endif %}
     <p class="text-muted">
-      <b> {{ user.followers.count() }} </b> Followers,
-      <b> {{ user.followed.count() }} </b> Following
+      <b> {{ user.followers.count() }} </b> Followers, Following
+      <b> {{ user.followed.count() }} </b>
     </p>
 
     {% if user==current_user %}

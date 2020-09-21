@@ -45,3 +45,7 @@ microblog.log*
 
 .vscode
 vscode
+
+app/static/css
+app/static/js
+app/static/favicon.ico

@@ -62,3 +62,16 @@ class PostForm(FlaskForm):
     )
     submit = SubmitField("Shout")
 
+
+class ResetPasswordRequestForm(FlaskForm):
+    email = StringField("Enter Your Email:", validators=[DataRequired(), Email()])
+    submit = SubmitField("Reset")
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField("Password : ", validators=[DataRequired()])
+    password2 = PasswordField(
+        "Retype Your Password :", validators=[DataRequired(), EqualTo("password")]
+    )
+    submit = SubmitField("Request Reset")
+

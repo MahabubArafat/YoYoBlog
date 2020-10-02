@@ -14,7 +14,7 @@
             style="text-decoration: none"
             >{{ post.author.username }}
           </a>
-          Shouted:</b
+          Shouted {{ moment(post.timestamp).fromNow() }}:</b
         >
       </div>
     </div>

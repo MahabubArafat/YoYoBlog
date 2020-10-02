@@ -10,7 +10,9 @@
     <p>{{ user.about_me }}</p>
     {% endif %} {% if user.last_seen %}
     <p>
-      <small class="text-muted"> Last Seen On : {{ user.last_seen }} </small>
+      <small class="text-muted">
+        Last Seen On : {{ moment(user.last_seen).format('LLL') }}
+      </small>
     </p>
     {% endif %}
     <p class="text-muted">

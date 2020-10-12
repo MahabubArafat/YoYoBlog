@@ -1,4 +1,4 @@
-import logging
+import logging, requests
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
 from flask import Flask
@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_moment import Moment
+from flask_babel import Babel, lazy_gettext as _l
 from config import Config
 
 
@@ -19,6 +20,7 @@ login.login_view = "login"  # url_for nijei lagay ney ei function
 # ar login bolte login function ta re bujaise jeita routes e dewa
 mail = Mail(app)
 moment = Moment(app)
+babel = Babel(app)
 
 
 if not app.debug:
@@ -57,4 +59,9 @@ if not app.debug:
     app.logger.info("MicroBlog Startup")
 
 
-from app import routes, models, errors
+# @babel.localeselector
+# def get_local():
+#     return request.accept_languages.best_match(app.config["LANGUAGES"])
+
+
+from app import routes, models, errors, translate

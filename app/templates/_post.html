@@ -14,12 +14,26 @@
             style="text-decoration: none"
             >{{ post.author.username }}
           </a>
-          Shouted {{ moment(post.timestamp).fromNow() }}:</b
-        >
+          Shouted:
+        </b>
+        <small class="text-muted" style="color: gold">
+          ( {{ moment(post.timestamp).fromNow() }} )
+        </small>
       </div>
     </div>
   </div>
   <div class="card-body">
-    <div class="card-text">{{ post.body }}</div>
+    <div id="post{{ post.id }}" class="card-text">
+      {{ post.body }} {% if post.language and post.language != g.locale %}
+      <br />
+      <hr />
+      <span id="translation{{ post.id }}">
+        <a
+          href="javascript:translate('#post{{ post.id }}','#translation{{ post.id }}','{{ post.language }}','{{ g.locale }}');"
+        >Translate</a
+        >
+      </span>
+      {% endif %}
+    </div>
   </div>
 </div>

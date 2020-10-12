@@ -93,6 +93,7 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     # look here we just passed in the function,but not the result of the function's calling or executed result, cause when here something is passed as default , the sqlalchemy will automatically execute it
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    language = db.Column(db.String(5))
 
     def __repr__(self):
         return f"<Post {self.body}>"

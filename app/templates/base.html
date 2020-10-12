@@ -91,6 +91,21 @@
 {{ moment.include_jquery() }}
 {{ moment.include_moment() }}
 
+<script>
+  function translate(sourceElem, destElem, sourceLang, destLang) {
+      $(destElem).html('<img src="{{ url_for('static', filename='loading.gif') }}">');
+      $.post('/translate', {
+          text: $(sourceElem).text(),
+          source_language: sourceLang,
+          dest_language: destLang
+      }).done(function(response) {
+          $(destElem).text(response['text'])
+      }).fail(function() {
+          $(destElem).text("Error: Could not contact server.");
+      });
+  }
+</script>
+
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
     integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
   </script>

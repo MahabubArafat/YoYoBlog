@@ -23,11 +23,11 @@
     <p>{{ form.submit(class="btn btn-success btn-sm") }}</p>
   </form>
   <p>
-    New User? <a href="{{ url_for('register') }}">Click here to Register !</a>
+    New User? <a href="{{ url_for('auth.register') }}">Click here to Register !</a>
   </p>
   <p>
     Forgot your password ?
-    <a class="btn btn-danger" href=" {{ url_for('reset_password_request') }}">
+    <a class="btn btn-danger" href=" {{ url_for('auth.reset_password_request') }}">
       Click Here</a
     >
   </p>

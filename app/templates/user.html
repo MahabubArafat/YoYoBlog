@@ -21,14 +21,14 @@
     </p>
 
     {% if user==current_user %}
-    <a class="btn btn-primary" href="{{ url_for('edit_profile') }}"
+    <a class="btn btn-primary" href="{{ url_for('main.edit_profile') }}"
       >Edit Your Profile</a
     >
     {% elif not current_user.is_following(user) %}
     <p>
       <a
         class="btn btn-success"
-        href="{{ url_for('follow',username=user.username) }}"
+        href="{{ url_for('main.follow',username=user.username) }}"
       >
         Follow</a
       >
@@ -37,7 +37,7 @@
     <p>
       <a
         class="btn btn-outline-danger"
-        href="{{ url_for('unfollow',username=user.username) }}"
+        href="{{ url_for('main.unfollow',username=user.username) }}"
         >Unfollow</a
       >
     </p>

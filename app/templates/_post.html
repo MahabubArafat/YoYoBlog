@@ -2,15 +2,18 @@
   <div class="card-header">
     <div class="row">
       <div class="col-1">
-        <img
+        <a href="{{ url_for('main.user',username=post.author.username) }}">
+          <img
           src="{{ post.author.avatar(36) }}"
           alt="{{ post.author.username }}"
         />
+        </a>
+
       </div>
       <div class="col-11">
         <b>
           <a
-            href="{{ url_for('user',username=post.author.username) }}"
+            href="{{ url_for('main.user',username=post.author.username) }}"
             style="text-decoration: none"
             >{{ post.author.username }}
           </a>

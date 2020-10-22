@@ -16,7 +16,6 @@ from app import db
 from app.main.forms import (
     EditProfileForm,
     PostForm,
-    EmptyForm
 )
 from app.models import User, Post
 from app.translate import translate

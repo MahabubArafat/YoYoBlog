@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Search Results</h1>
+<small class="text-muted">Total <b>{{ total['value'] }} </b>results found </small>
+{% for post in posts %}
+    {% include '_post.html' %}
+{% endfor %}
+<br>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+      {% if prev_url %}
+      <li class="page-item">
+        <a class="page-link" href="{{ prev_url }}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span> Back
+        </a>
+      </li>
+      {% endif %}
+      {% if next_url %}
+      <li class="page-item">
+        <a class="page-link" href="{{ next_url }}" aria-label="Next">
+          More <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+  
+
+{% endblock %}

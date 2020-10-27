@@ -53,10 +53,13 @@
         {% endif %}
 
       </ul>
-      <form class="d-flex">
-        <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+      {% if g.search_form %}
+      <form class="d-flex" method="get" action="{{ url_for('main.search') }}">
+        <!-- <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search"> -->
+        {{ g.search_form.q(class='form-control mr-2',placeholder='Search') }}
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
+      {% endif %}
     </div>
   </div>
 </nav>

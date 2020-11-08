@@ -46,4 +46,5 @@ microblog.log*
 .vscode
 vscode
 
-app/static/*
+app/static/js/*
+app/static/css/*

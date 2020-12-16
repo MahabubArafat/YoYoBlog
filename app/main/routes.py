@@ -9,7 +9,7 @@ from flask import (
     g,
     current_app,
 )
-from flask_login import current_user,login_required
+from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 from guess_language import guess_language
 from app import db
@@ -22,13 +22,15 @@ from app.models import User, Post
 from app.translate import translate
 from app.main import bp
 
+
 @bp.before_app_request
 def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
-        g.search_form=SearchForm()
+        g.search_form = SearchForm()
     g.locale = str(get_locale())
+
 
 @bp.route("/", methods=["GET", "POST"])
 @bp.route("/index", methods=["GET", "POST"])
@@ -79,12 +81,14 @@ def explore():
         prev_url=prev_url,
     )
 
+
 @bp.route("/user/<username>")
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     posts = user.posts.order_by(Post.timestamp.desc()).all()
     return render_template("user.html", user=user, posts=posts, title=username)
+
 
 @bp.route("/edit_profile", methods=["GET", "POST"])
 @login_required
@@ -102,6 +106,14 @@ def edit_profile():
 
     return render_template("edit_profile.html", form=form, title="edit profile")
 
+
+@bp.route("/user/<username>/popup")
+@login_required
+def user_popup(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template("user_popup.html", user=user)
+
+
 @bp.route("/follow/<username>")
 @login_required
 def follow(username):
@@ -116,6 +128,7 @@ def follow(username):
     db.session.commit()
     flash(f"You are Folllowing {username}")
     return redirect(url_for("main.user", username=username))
+
 
 @bp.route("/unfollow/<username>")
 @login_required
@@ -147,20 +160,38 @@ def trnaslate_text():
     )
 
 
-@bp.route('/search')
+@bp.route("/search")
 @login_required
 def search():
-    if not g.search_form.validate(): #why validate not validate on submit, cause validate on submit will imply its post request but actually its a get request, so we had to use only validate
-        return redirect(url_for('main.explore'))
+    if (
+        not g.search_form.validate()
+    ):  # why validate not validate on submit, cause validate on submit will imply its post request but actually its a get request, so we had to use only validate
+        return redirect(url_for("main.explore"))
     try:
-        page = request.args.get('page', 1, type=int)
-        posts, total = Post.search(g.search_form.q.data, page, current_app.config['POSTS_PER_PAGE'])
-        next_url = url_for('main.search', q=g.search_form.q.data, page=page + 1) if total['value'] > page * current_app.config['POSTS_PER_PAGE'] else None
+        page = request.args.get("page", 1, type=int)
+        posts, total = Post.search(
+            g.search_form.q.data, page, current_app.config["POSTS_PER_PAGE"]
+        )
+        next_url = (
+            url_for("main.search", q=g.search_form.q.data, page=page + 1)
+            if total["value"] > page * current_app.config["POSTS_PER_PAGE"]
+            else None
+        )
 
-        prev_url = url_for('main.search', q=g.search_form.q.data, page=page - 1) if page > 1 else None
+        prev_url = (
+            url_for("main.search", q=g.search_form.q.data, page=page - 1)
+            if page > 1
+            else None
+        )
 
-        return render_template('search.html', title='Search', posts=posts, next_url=next_url, prev_url=prev_url, total=total)
+        return render_template(
+            "search.html",
+            title="Search",
+            posts=posts,
+            next_url=next_url,
+            prev_url=prev_url,
+            total=total,
+        )
     except:
-        return render_template('not_found.html')
-    
+        return render_template("not_found.html")
 

@@ -9,6 +9,21 @@
             {% if user.about_me %}
             <p>{{ user.about_me }}</p>
             {% endif %}
+        </small>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {% if user != current_user %}
+            {% if not current_user.is_following(user) %}
+            <a class="btn btn-success" href="{{ url_for('main.follow',username=user.username) }}">Follow</a>
+            {% else %}
+            <a class="btn btn-danger" href="{{ url_for('main.unfollow',username=user.username) }}">Unfollow</a>
+            {% endif %}
+        {% endif %}
+        </td>
+        <td>
+            <small>
             {% if user.last_seen %}
             <p>
                 Last Seen On : {{ moment(user.last_seen).format('lll') }}
@@ -18,13 +33,6 @@
                 <b>{{ user.followers.count() }}</b> Followers, Following <b>{{ user.followed.count() }} </b>
             </p>
         </small>
-        {% if user != current_user %}
-            {% if not current_user.is_following(user) %}
-            <a class="btn btn-success" href="{{ url_for('main.follow',username=user.username) }}">Follow</a>
-            {% else %}
-            <a class="btn btn-danger" href="{{ url_for('main.unfollow',username=user.username) }}">Unfollow</a>
-            {% endif %}
-        {% endif %}
         </td>
     </tr>
 

@@ -95,12 +95,52 @@
           $(destElem).text("Error: Could not contact server.");
       });
   }
+  $(function ()
+  {
+    var timer=null;
+    var xhr = null;
+    $(.'user_popup').hover(
+      function(e){
+        var elem=$(e.currentTarget);
+        timer=setTimeout(function(){
+          timer=null;
+          xhr=$.ajax('/user/'+elem.first().text().trim()+'/popup').done(
+            function(data){
+              xhr=null;
+              elem.popover(
+                {
+                  trigger:'manual',
+                  html:true,
+                  animation:false,
+                  container:elem,
+                  content:data
+                }
+              ).popover('show');
+              // flask_moment_render_all();
+            }
+          );
+        },1000);
+      },
+      function(e){
+        var elem = $(e.currentTarget);
+        if (timer){
+          clearTimeout(timer);
+          timer=null;
+        }else if(xhr){
+          xhr.abort();
+          xhr=null;
+        }else{
+          elem.popover('destroy');
+        }
+      }
+    );
+  });
 </script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
     integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
   </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+
   <script src="{{ url_for('static',filename='js/bootstrap.js') }}"></script>
 </body>
 

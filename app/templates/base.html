@@ -95,6 +95,8 @@
           $(destElem).text("Error: Could not contact server.");
       });
   }
+</script>
+<script>
   $(function ()
   {
     var timer=null;
@@ -114,27 +116,23 @@
                   animation:false,
                   container:elem,
                   content:data
-                }
-              ).popover('show');
-              // flask_moment_render_all();
-            }
-          );
-        },1000);
-      },
-      function(e){
-        var elem = $(e.currentTarget);
-        if (timer){
-          clearTimeout(timer);
-          timer=null;
-        }else if(xhr){
-          xhr.abort();
-          xhr=null;
-        }else{
-          elem.popover('destroy');
-        }
+                }).popover('show');
+                // flask_moment_render_all();
+              });},1000);},
+    function(e){
+      var elem = $(e.currentTarget);
+      if (timer){
+        clearTimeout(timer);
+        timer=null;
+      }else if(xhr){
+        xhr.abort();
+        xhr=null;
+      }else{
+        elem.popover('destroy');
       }
-    );
-  });
+    }
+  );
+});
 </script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
     integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">

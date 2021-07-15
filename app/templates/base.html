@@ -82,6 +82,7 @@
 {{ moment.include_jquery() }}
 {{ moment.include_moment() }}
 
+
 <script>
   function translate(sourceElem, destElem, sourceLang, destLang) {
       $(destElem).html('<img src="{{ url_for('static', filename='loading.gif') }}">');
@@ -96,12 +97,13 @@
       });
   }
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
   $(function ()
   {
     var timer=null;
     var xhr = null;
-    $(.'user_popup').hover(
+    $('.user_popup').hover(
       function(e){
         var elem=$(e.currentTarget);
         timer=setTimeout(function(){
@@ -109,13 +111,15 @@
           xhr=$.ajax('/user/'+elem.first().text().trim()+'/popup').done(
             function(data){
               xhr=null;
+              // console.log(data); //its getting the popover page, it can be printed in the console, so why its not displayed
+
               elem.popover(
                 {
-                  trigger:'manual',
-                  html:true,
-                  animation:false,
-                  container:elem,
-                  content:data
+                  trigger : 'manual',
+                  html : false,
+                  animation : false,
+                  // container : elem,
+                  content : data
                 }).popover('show');
                 // flask_moment_render_all();
               });},1000);},

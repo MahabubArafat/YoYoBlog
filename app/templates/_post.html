@@ -12,11 +12,15 @@
       </div>
       <div class="col-11">
         <b>
-          <a class="user_popup"
+          <span class="user_popup">
+            <a
             href="{{ url_for('main.user',username=post.author.username) }}"
             style="text-decoration: none"
             >{{ post.author.username }}
           </a>
+
+          </span>
+
           Shouted:
         </b>
         <small class="text-muted" style="color: gold">

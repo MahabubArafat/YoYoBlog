@@ -4,6 +4,7 @@ import jwt
 from time import time
 from flask import current_app
 from flask_login import UserMixin
+from sqlalchemy.orm import backref
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login
 from app.search import add_to_index, remove_from_index, query_index
@@ -18,7 +19,7 @@ from app.search import add_to_index, remove_from_index, query_index
 #         for i in range(len(ids)):
 #             when.append((ids[i], i))
 #         return cls.query.filter(cls.id.in_(ids)).order_by(db.case(when, value=cls.id)), total
-    
+
 #     @classmethod
 #     def before_commit(cls, session):
 #         session._changes = {
@@ -26,22 +27,22 @@ from app.search import add_to_index, remove_from_index, query_index
 #             'update': list(session.dirty),
 #             'delete':list(session.deleted)
 #         }
-    
+
 #     @classmethod
 #     def after_commit(cls, session):
 #         for obj in session._changes['add']:
 #             if isinstance(obj, SearchableMixin):
 #                 add_to_index(obj.__tablename__, obj)
-        
+
 #         for obj in session._changes['update']:
 #             if isinstance(obj, SearchableMixin):
 #                 add_to_index(obj.__tablename__, obj)
-        
+
 #         for obj in session._changes['delete']:
 #             if isinstance(obj, SearchableMixin):
 #                 remove_from_index(obj.__tablename__, obj)
 #         session._changes = None
-    
+
 #     @classmethod
 #     def reindex(cls):
 #         for obj in cls.query:
@@ -72,6 +73,15 @@ class User(UserMixin, db.Model):
         primaryjoin=(followers.c.follower_id == id),
         secondaryjoin=(followers.c.followed_id == id),
         backref=db.backref("followers", lazy="dynamic"),
+        lazy="dynamic",
+    )
+    messages_sent = db.relationship(
+        "Message", foreign_keys="Message.sender_id", backref="author", lazy="dynamic"
+    )
+    messages_received = db.relationship(
+        "Message",
+        foreign_keys="Message.recipient_id",
+        backref="recipient",
         lazy="dynamic",
     )
 
@@ -115,12 +125,20 @@ class User(UserMixin, db.Model):
             algorithm="HS256",
         ).decode("utf-8")
 
+    def new_messages(self):
+        last_read_time = self.last_message_read_time or datetime(1900, 1, 1)
+        return (
+            Message.query.filter_by(recipient=self)
+            .filter(Message.timestamp > last_read_time)
+            .count()
+        )
+
     @staticmethod
     def verify_reset_password_token(token):
         try:
-            id = jwt.decode(token, current_app.config["SECRET_KEY"], algorithms=["HS256"])[
-                "reset_password"
-            ]
+            id = jwt.decode(
+                token, current_app.config["SECRET_KEY"], algorithms=["HS256"]
+            )["reset_password"]
         except:
             return
         return User.query.get(id)
@@ -132,7 +150,7 @@ def load_user(id):
 
 
 class Post(db.Model):
-    __searchable__=['body']
+    __searchable__ = ["body"]
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(300))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
@@ -142,4 +160,15 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"<Post {self.body}>"
+
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    recipient_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    body = db.Column(db.String(200))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return "<Message: {}>".format(self.body)
 

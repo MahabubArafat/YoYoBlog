@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="h1"> Send Message to {{ recipient }}</div>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+        <h3>{{ form.message.label }}</h3> <br>
+        {{ form.message(class="form-control",placeholder="Say Anything",rows=5,cols=40) }}
+        {% for error in form.message.errors %}
+        <span class="alert alert-danger">
+            {{ error }}
+        </span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.submit(class="btn btn-success btn-sm")}}
+    </p>
+</form>
+{% endblock %}

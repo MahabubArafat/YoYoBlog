@@ -13,12 +13,8 @@ from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 from guess_language import guess_language
 from app import db
-from app.main.forms import (
-    EditProfileForm,
-    PostForm,
-    SearchForm,
-)
-from app.models import User, Post
+from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm
+from app.models import User, Post, Message
 from app.translate import translate
 from app.main import bp
 
@@ -194,4 +190,20 @@ def search():
         )
     except:
         return render_template("not_found.html")
+
+
+@bp.route("/send_message/<recipient>", methods=["GET", "POST"])
+@login_required
+def send_message(recipient):
+    user = User.query.filter_by(username=recipient).first_or_404()
+    form = MessageForm()
+    if form.validate_on_submit():
+        msg = Message(author=current_user, recipient=user, body=form.message.data)
+        db.session.add(msg)
+        db.session.commit()
+        flash("Sent")
+        return redirect(url_for("main.user", username=recipient))
+    return render_template(
+        "send_message.html", title="Send Message", form=form, recipient=recipient
+    )
 

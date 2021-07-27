@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>
+    Messages:
+</h1>
+<hr>
+{% for post in messages %}
+    {% include '_post.html' %}
+{% endfor %}
+<br>
+<br>
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-end">
+    {% if prev_url %}
+    <li class="page-item">
+      <a class="page-link" href="{{ prev_url }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span> Newer
+      </a>
+    </li>
+    {% endif %}
+    {% if next_url %}
+    <li class="page-item">
+      <a class="page-link" href="{{ next_url }}" aria-label="Next">
+        Older <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% endblock %}

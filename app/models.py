@@ -84,6 +84,7 @@ class User(UserMixin, db.Model):
         backref="recipient",
         lazy="dynamic",
     )
+    last_message_read_time = db.Column(db.DateTime)
 
     def __repr__(self):
         return f"<User {self.username}>"

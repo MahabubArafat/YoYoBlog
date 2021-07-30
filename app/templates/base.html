@@ -48,6 +48,9 @@
           <a class="btn btn-warning btn-sm" href="{{ url_for('main.user', username=current_user.username) }}">Profile</a>
         </li>
         <li style="padding-right: 10px;" class="nav-item">
+          <a class="btn btn-light btn-sm" href="{{ url_for('main.notifications') }}">Notifications</a>
+        </li>
+        <li style="padding-right: 10px;" class="nav-item">
           <a class="btn btn-primary btn-sm" href="{{ url_for('main.messages') }}">Messages
             {% set new_messages = current_user.new_messages() %}
             <span id="message_count" class="badge" style="visibility: {% if new_messages %} visible {% else %} hidden {% endif %};">{{ new_messages }}</span>

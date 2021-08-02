@@ -96,11 +96,8 @@
   <script>
     function set_message_count(n) {
       $('#message_count').text(n);
-      $('#message_count').css('visibility', n ? 'visible':'hidden');
+      $('#message_count').css('visibility', n ? 'visible' : 'hidden');
     }
-  </script>
-
-  <script>
     {% if current_user.is_authenticated %}
     $(function() {
       var since=0;

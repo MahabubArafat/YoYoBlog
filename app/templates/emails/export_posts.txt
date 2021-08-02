@@ -1,0 +1,6 @@
+Dear {{ user.username }},
+
+Please find the attached the archive of your post that you requested.
+
+Sincerely,
+The YoYoBlog Team

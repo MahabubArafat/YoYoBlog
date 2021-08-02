@@ -48,7 +48,13 @@
     </p>
     {% endif %}
   </div>
+  {% if not current_user.get_task_in_progress('export_posts') %}
+  <p>
+    <a href="{{ url_for('main.export_posts') }}" class="btn btn-dark">Export All Your Posts</a>
+  </p>
+  {% endif %}
 </div>
+
 
 <hr />
 {% for post in posts %} {% include "_post.html" %}

@@ -3,9 +3,9 @@ import json
 import sys
 from flask import render_template
 from rq import get_current_job
-from app import create_app, db
 from app.models import Task,User,Post
 from app.email import send_email
+from app import create_app, db
 
 
 
